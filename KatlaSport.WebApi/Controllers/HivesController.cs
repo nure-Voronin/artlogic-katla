@@ -89,24 +89,6 @@ namespace KatlaSport.WebApi.Controllers
             return Created<Hive>(location, hive);
         }
 
-        [HttpPost]
-        [Route("")]
-        [SwaggerResponse(HttpStatusCode.Created, Description = "Creates a new hive.")]
-        [SwaggerResponse(HttpStatusCode.BadRequest)]
-        [SwaggerResponse(HttpStatusCode.Conflict)]
-        [SwaggerResponse(HttpStatusCode.InternalServerError)]
-        public async Task<IHttpActionResult> UpdateHive([FromBody] UpdateHiveRequest createRequest)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var hive = await _hiveService.CreateHiveAsync(createRequest);
-            var location = string.Format("/api/hives/{0}", hive.Id);
-            return Created<Hive>(location, hive);
-        }
-
         [HttpPut]
         [Route("{id:int:min(1)}")]
         [SwaggerResponse(HttpStatusCode.NoContent, Description = "Update a hive.")]
