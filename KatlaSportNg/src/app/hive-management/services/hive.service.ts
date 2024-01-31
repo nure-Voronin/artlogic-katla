@@ -10,6 +10,9 @@ import { HiveSectionListItem } from "../models/hive-section-list-item";
   providedIn: "root",
 })
 export class HiveService {
+  setHiveSectionStatus(hiveId: number, arg1: boolean) {
+    throw new Error("Method not implemented.");
+  }
   private url = environment.apiUrl + "api/hives/";
 
   constructor(private http: HttpClient) {}
@@ -41,6 +44,9 @@ export class HiveService {
   }
 
   setHiveStatus(hiveId: number, deletedStatus: boolean): Observable<Object> {
-    return null;
+    return this.http.put<Hive>(
+      `${this.url}${hiveId}/status${deletedStatus}`,
+      ""
+    );
   }
 }

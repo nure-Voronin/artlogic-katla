@@ -23,6 +23,24 @@
               Edit
             </button>
           </div>
+          <div
+            class="btn-group mr-2"
+            role="group"
+            aria-label="View group"
+            *ngIf="!hive.isDeleted"
+            (click)="onDelete(section.id)"
+          >
+            <button type="button" class="btn btn-primary">Delete</button>
+          </div>
+          <div
+            class="btn-group mr-2"
+            role="group"
+            aria-label="View group"
+            *ngIf="section.isDeleted"
+            (click)="onUndelete(section.id)"
+          >
+            <button type="button" class="btn btn-primary">UnDelete</button>
+          </div>
         </td>
       </tr>
     </tbody>
