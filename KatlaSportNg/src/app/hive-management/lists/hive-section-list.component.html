@@ -27,10 +27,10 @@
             class="btn-group mr-2"
             role="group"
             aria-label="View group"
-            *ngIf="!hive.isDeleted"
+            *ngIf="!section.isDeleted"
             (click)="onDelete(section.id)"
           >
-            <button type="button" class="btn btn-primary">Delete</button>
+            <button type="button" class="btn btn-danger">Delete</button>
           </div>
           <div
             class="btn-group mr-2"
