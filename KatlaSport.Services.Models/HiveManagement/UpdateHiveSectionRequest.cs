@@ -11,5 +11,10 @@
         /// Gets or sets a store hive code.
         /// </summary>
         public string Code { get; set; }
+
+        /// <summary>
+        /// Gets or sets a hive identifier.
+        /// </summary>
+        public int StoreHiveId { get; set; }
     }
 }
