@@ -16,7 +16,7 @@
         <td>
           <div class="btn-group" role="group" aria-label="Edit group">
             <button
-              routerLink="/section/{{ section.id }}"
+              routerLink="/section/{{ section.id }}/{{ hiveId }}"
               type="button"
               class="btn btn-primary"
             >
@@ -53,7 +53,7 @@
     </div>
     <div class="btn-group" role="group" aria-label="Add group">
       <button
-        routerLink="/hive/{{ this.hiveId }}"
+        routerLink="/hive/{{ this.hiveId }}/section"
         type="button"
         class="btn btn-primary"
       >

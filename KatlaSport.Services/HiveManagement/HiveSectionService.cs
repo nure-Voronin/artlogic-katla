@@ -56,29 +56,9 @@ namespace KatlaSport.Services.HiveManagement
             return hiveSections;
         }
 
-        /// <inheritdoc/>
-        public async Task SetStatusAsync(int hiveSectionId, bool deletedStatus)
+        public async Task<HiveSection> CreateHiveSectionAsync(UpdateHiveSectionRequest createRequest)
         {
-            var dbHiveSections = await _context.Sections.Where(c => hiveSectionId == c.Id).ToArrayAsync();
-
-            if (dbHiveSections.Length == 0)
-            {
-                throw new RequestedResourceNotFoundException();
-            }
-
-            var dbHiveSection = dbHiveSections[0];
-            if (dbHiveSection.IsDeleted != deletedStatus)
-            {
-                dbHiveSection.IsDeleted = deletedStatus;
-                dbHiveSection.LastUpdated = DateTime.UtcNow;
-                dbHiveSection.LastUpdatedBy = _userContext.UserId;
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<HiveSection> AddHiveSectionAsync(UpdateHiveSectionRequest createRequest)
-        {
-            var dbHiveSections = await _context.Hives.Where(h => h.Code == createRequest.Code).ToArrayAsync();
+            var dbHiveSections = await _context.Sections.Where(h => h.Code == createRequest.Code).ToArrayAsync();
             if (dbHiveSections.Length > 0)
             {
                 throw new RequestedResourceHasConflictException("code");
@@ -97,13 +77,13 @@ namespace KatlaSport.Services.HiveManagement
         /// <inheritdoc/>
         public async Task<HiveSection> UpdateHiveSectionAsync(int hiveSectionId, UpdateHiveSectionRequest updateRequest)
         {
-            var dbHiveSections = await _context.Sections.Where(p => p.Code == updateRequest.Code && p.Id != hiveSectionId).ToArrayAsync();
+            var dbHiveSections = await _context.Sections.Where(h => h.Code == updateRequest.Code && h.Id != hiveSectionId).ToArrayAsync();
             if (dbHiveSections.Length > 0)
             {
                 throw new RequestedResourceHasConflictException("code");
             }
 
-            dbHiveSections = await _context.Sections.Where(p => p.Id == hiveSectionId).ToArrayAsync();
+            dbHiveSections = await _context.Sections.Where(h => h.Id == hiveSectionId).ToArrayAsync();
             if (dbHiveSections.Length == 0)
             {
                 throw new RequestedResourceNotFoundException();
@@ -136,6 +116,25 @@ namespace KatlaSport.Services.HiveManagement
 
             _context.Sections.Remove(dbHiveSection);
             await _context.SaveChangesAsync();
+        }
+
+        /// <inheritdoc/>
+        public async Task SetStatusAsync(int hiveSectionId, bool deletedStatus)
+        {
+            var dbHiveSections = await _context.Sections.Where(h => hiveSectionId == h.Id).ToArrayAsync();
+            if (dbHiveSections.Length == 0)
+            {
+                throw new RequestedResourceNotFoundException();
+            }
+
+            var dbHiveSection = dbHiveSections.FirstOrDefault();
+            if (dbHiveSection.IsDeleted != deletedStatus)
+            {
+                dbHiveSection.IsDeleted = deletedStatus;
+                dbHiveSection.LastUpdated = DateTime.UtcNow;
+                dbHiveSection.LastUpdatedBy = _userContext.UserId;
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
